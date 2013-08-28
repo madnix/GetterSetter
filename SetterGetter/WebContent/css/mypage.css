@@ -1,0 +1,10 @@
+@charset "utf-8";
+/* import */
+@import url(base.css); /* reset, font, link, skip */
+@import url(layout.css); /* layout */
+
+
+/* mypage */
+
+#mypage{margin-bottom: 200px;}
+#my_list{width:1000px; margin:0 auto; border-top:8px solid #e5e5e3;}

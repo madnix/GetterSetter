@@ -1,0 +1,26 @@
+@CHARSET "EUC-KR";
+
+/* import */
+@import url(base.css); /* reset, font, link, skip */
+@import url(layout.css); /* layout */
+
+/*	중간 회색줄	*/
+#main_line{height:10px; width:990px; background-color:#dbdbdb; margin-right:auto; margin-left:auto;margin-top:-30px;}
+#side_line{height:5px; width:510px; background-color:#dddddd; margin-right:auto; margin-left:auto; margin-top:30px;}
+#side_line2{height:5px; width:510px; background-color:#dddddd; margin: 10px 100px 10px -10px; }
+
+/*	board_info	*/
+#board_Write_Wrap {height:auto; width:500px; margin-right:auto; margin-left:auto; background-color:#f5f5f5; font-size:20px; padding-top: 10px; padding-left: 10px;}
+#board_Write_Wrap .left_box{ padding-top: 10px; padding-left: 10px; padding-right: 10px;}
+#board_Write_Wrap .right_box{ padding-top: 10px; padding-left: 10px; padding-right: 10px;}
+
+/*	board_move_box	*/
+#move_box{height:250px; width:910px; margin-right:auto; margin-left:auto; }
+/*  board_목록  */
+#move1{margin:8px 0 0 200px;}
+/*  board_취소  */
+#move2{margin:-38px 0 0 565px;}
+/*  board_삭제  */
+#move3{margin:-36px 0 0 645px;}
+
+

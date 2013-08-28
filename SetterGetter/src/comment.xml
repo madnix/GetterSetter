@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+ <sqlMap namespace="Comment">
+ 
+ 	<typeAlias alias="Comment"  type="model.CommentBean"/>
+ 	
+ 	<resultMap id="CommentResult" class="Comment">
+ 		<result property="no" column="no" columnIndex="1"/>
+ 		<result property="product_id" column="product_id" columnIndex="2"/>
+ 		<result property="comment_id" column="id" columnIndex="3"/>
+ 		<result property="comment_section" column="section" columnIndex="4"/>
+ 		<result property="comment_name" column="name" columnIndex="5"/>
+ 		<result property="comment_cont" column="cont" columnIndex="6"/>
+ 		<result property="comment_secret" column="secret" columnIndex="7"/>
+ 		<result property="comment_select_no" column="comment_select_no" columnIndex="8"/>
+ 		<result property="comment_level" column="comment_level" columnIndex="9"/>
+ 		<result property="comment_no" column="comment_no" columnIndex="10"/>
+ 		<result property="product_appraisal" column="product_appraisal" columnIndex="11"/>
+ 		<result property="comment_date" column="regdate" columnIndex="12"/>
+ 		<!-- property="CommentBean=명령어" column="DB 명령어" -->
+	
+ 	</resultMap>
+ 	
+ <!-- =================== 해당 댓글 전체 내용 수 =================== -->
+ 	<select id="totalComment" parameterClass="String" resultClass="java.lang.Integer">
+ 		select count(*) as sum from board_comment where product_id = #product_id#
+ 	</select>
+ 		
+ 	<select id="commentListGet" parameterClass="java.util.Map" resultMap="CommentResult">
+ 	<![CDATA[
+		select no, product_id, id, section, name, cont, secret, comment_select_no, comment_level, comment_no, product_appraisal, regdate 
+		from(
+			select no, product_id, id, section, name, cont, secret, comment_select_no, comment_level, comment_no, product_appraisal, regdate, rownum as rnum 
+			from (
+				select *
+				from board_comment where product_id=#pro_id#
+				order by no desc, comment_no
+				)
+			)	
+ 		where rnum between #startRow# and #endRow#		 
+		]]>	
+ 	</select>
+ 	
+ <!-- =================== 상품평 저장 =================== -->
+ 	<insert id="insertComment" parameterClass="Comment">
+ 		insert into board_comment (no, product_id, id, section, name, cont, secret, comment_select_no, comment_level, comment_no, product_appraisal, regdate) values(seq_board_comment.nextval, #product_id#, #comment_id#, #comment_section#, #comment_name#, #comment_cont#, #comment_secret#, #comment_select_no#, #comment_level#, seq_board_comment.nextval, #product_appraisal#, sysdate)
+ 	</insert>
+ 	
+ <!-- =================== 상품평 삭제 =================== -->
+ 	<update id="commentDel" parameterClass="Comment">
+ 		delete from board_comment where no=#no# and product_id=#product_id#
+ 	</update>
+ 	
+<!--  	<update id="createSequence" parameterClass="Comment"> -->
+<!--  		create sequence #comment_name# -->
+<!--  	</update> -->
+ 		
+ 	
+ 	 </sqlMap>

@@ -1,0 +1,12 @@
+@charset "utf-8";
+/* import */
+@import url(base.css); /* reset, font, link, skip */
+@import url(layout.css); /* layout */
+
+
+/* my order */
+#myorder{width:1000px; height:830px;margin:0 auto; }
+.order_table{border-top:8px solid #e5e5e3;background:url(../images/cart/bord_bg.gif) repeat-x top left;}
+.order_table th{color:#313131; height:32px;}
+.order_table td{height:30px; background:url(../images/cart/borad_bottom_line.gif) repeat-x left bottom;text-align:center;padding:3px 0;}
+

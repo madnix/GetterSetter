@@ -1,0 +1,349 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="Order">
+
+  <typeAlias alias="Order" type="model.OrderBean"/>
+
+  <resultMap id="OrderResult" class="Order">
+  	<result property="order_no" column="order_no" columnIndex="1"/>	
+    <result property="customer_id" column="customer_id" columnIndex="2"/>
+    <result property="product_id" column="product_id" columnIndex="3"/>
+    <result property="product_listImg" column="product_listImg" columnIndex="4"/>
+    <result property="product_name" column="product_name" columnIndex="5"/>
+    <result property="product_price" column="product_price" columnIndex="6"/>
+    <result property="product_count" column="product_count" columnIndex="7"/>
+    <result property="seller_user" column="seller_user" columnIndex="8"/>
+    <result property="buyer_name" column="buyer_name" columnIndex="9"/>
+    <result property="buyer_bank" column="buyer_bank" columnIndex="10"/>
+    <result property="buyer_banknumber" column="buyer_banknumber" columnIndex="11"/>
+    <result property="recevier_name" column="recevier_name" columnIndex="12"/>
+    <result property="recevier_addr1" column="recevier_addr1" columnIndex="13"/>
+    <result property="recevier_addr2" column="recevier_addr2" columnIndex="14"/>
+    <result property="recevier_zip1" column="recevier_zip1" columnIndex="15"/>
+    <result property="recevier_zip2" column="recevier_zip2" columnIndex="16"/>
+    <result property="recevier_tel1" column="recevier_tel1" columnIndex="17"/>
+    <result property="recevier_tel2" column="recevier_tel2" columnIndex="18"/>
+    <result property="recevier_tel3" column="recevier_tel3" columnIndex="19"/>
+    <result property="recevier_help" column="recevier_help" columnIndex="20"/>
+    <result property="recevier_cartdate" column="recevier_cartdate" columnIndex="21"/>
+    <result property="recevier_buydate" column="recevier_buydate" columnIndex="22"/>
+    <result property="deal_check" column="deal_check" columnIndex="23"/>
+    <result property="buy_and_cart" column="buy_and_cart" columnIndex="24"/>
+  </resultMap>
+
+	<!-- 장바구니에 정보 담기 -->
+	<insert id="insertCartInfo" parameterClass="Order">
+		insert into orderProduct(order_no, customer_id, product_id, product_listImg, product_name,
+								product_price, product_count, seller_user, recevier_cartdate, buy_and_cart)
+		values(order_seq.nextval, #customer_id#, #product_id#, #product_listImg#, #product_name#, 
+				#product_price#, #product_count#, #seller_user#, sysdate, #buy_and_cart#)		
+	</insert>
+	
+	<!-- User 에 맞는 장바구니 정보 가져오기 -->
+	<select id="getUserCartInfo" parameterClass="String" resultMap="OrderResult" > 
+		select *
+		from orderProduct
+		where customer_id=#id# and buy_and_cart='N'
+		order by order_no desc
+	</select>
+	
+	<!-- DB에 장바구니 중복 물품 있는지 체크 -->
+	<select id="checkCartInfo" parameterClass="Order" resultClass="int">
+		select count(*)
+		from orderProduct
+		where customer_id=#customer_id# and product_id=#product_id# and buy_and_cart='N'
+	</select>
+	
+	<!-- 중복 물품을 장바구니에 담을 시 수량만 추가  -->
+	<update id="addCartProduct" parameterClass="Order">
+		update orderProduct
+		set product_count=product_count+#product_count#
+		where customer_id=#customer_id# and product_id=#product_id#
+	</update>
+	
+	<!-- 장바구니 하나 물품 삭제하기 -->
+	<delete id="cartOneDelete" parameterClass="Map">
+		delete from orderProduct
+		where order_no=#order_no# and customer_id=#id#
+	</delete>
+	<!-- 장바구니 선택한 물품 삭제하기 -->
+	<delete id="cartCheckDelete" parameterClass="Map">
+		delete from orderProduct
+		where order_no=#order_no# and customer_id=#id#
+	</delete>
+	
+	<!-- orderProduct 테이블 key 값에 대한 물품 정보 -->
+	<select id="getCartProductInfo" parameterClass="int" resultClass="Order">
+		select *
+		from orderProduct
+		where order_no=#order_no#
+	</select>
+	
+	<!-- 장바구니에서 수량 수정 -->
+	<update id="CartCountModify" parameterClass="map">
+		update orderProduct
+		set product_count=#product_count#
+		where order_no=#order_no#
+	</update>
+	
+	<!-- 장바구니에 물품 갯수 -->
+	<select id="getUserCartTotal" resultClass="java.lang.Integer" parameterClass="String">
+	
+	select count(*) as sum
+		from orderProduct
+		where customer_id=#id# and buy_and_cart='N'
+
+	</select>
+	
+	<!-- 판매자 제품 구매 카운트 -->
+	<select id="getcountforinput" parameterClass="String" resultClass="java.lang.Integer">
+		select count(*) from orderProduct where seller_user=#id# and deal_check=1
+	</select>
+	
+	<!-- 판매자 구매 페이징 -->
+	 <select id="productoutputlist" parameterClass="java.util.Map" resultClass="Order">
+		<![CDATA[
+		select * from(
+			select rownum as rnum, A.* from (
+				select * from orderProduct
+				where seller_user=#puser_id# and deal_check=1
+				order by order_no desc
+				) A
+			)	
+		where rnum between #startRow# and #endRow#		
+		]]>	
+	</select>
+	
+	
+	<!-- 장바구니에서 주문할 때 배송지정보 수정 ^ deal_check 수정 -->
+	<update id="Order_dealcheck_Edit" parameterClass="java.util.Map">
+		update orderProduct
+		set buyer_name=#orderBean.buyer_name#, buyer_bank=#orderBean.buyer_bank#, buyer_banknumber=#orderBean.buyer_banknumber#,
+			recevier_name=#orderBean.recevier_name#, recevier_addr1=#orderBean.recevier_addr1#, recevier_addr2=#orderBean.recevier_addr2#,
+			recevier_zip1=#orderBean.recevier_zip1#, recevier_zip2=#orderBean.recevier_zip2#, recevier_tel1=#orderBean.recevier_tel1#,
+			recevier_tel2=#orderBean.recevier_tel2#, recevier_tel3=#orderBean.recevier_tel3#, recevier_help=#orderBean.recevier_help#,
+			recevier_buydate=sysdate, deal_check=0
+		where order_no=#order_no#
+	</update>
+	
+	<!-- 구매목록현황 -->
+	<select id="getOrderSearchList" parameterClass="String" resultClass="Order">
+		select *
+		from orderProduct
+		where customer_id=#id# and (deal_check=0 or deal_check=3 or deal_check=5)
+		order by recevier_buydate desc, order_no desc
+	</select>
+	
+	<!-- 장바구니에 있는 물건 buy_and_cart=Y 로 변경 -->
+	<update id="changeBuyCart" parameterClass="String">
+		update orderProduct
+		set buy_and_cart='Y'
+		where order_no=#order_no#		
+	</update>
+	
+	
+	<!-- 바로구매이용해서 물품 구매 -->
+	<insert id="InsertOrderProduct" parameterClass="Order">
+		insert into orderProduct(order_no, customer_id, product_id, product_listImg, product_name,
+								product_price, product_count, seller_user, buyer_name, buyer_bank,
+								buyer_banknumber, recevier_name, recevier_addr1, recevier_addr2, 
+								recevier_zip1, recevier_zip2, recevier_tel1, recevier_tel2, recevier_tel3,
+								recevier_help, recevier_buydate, deal_check, buy_and_cart)
+		values(order_seq.nextval, #customer_id#, #product_id#, #product_listImg#, #product_name#,
+								#product_price#, #product_count#, #seller_user#, #buyer_name#, #buyer_bank#,
+								#buyer_banknumber#, #recevier_name#, #recevier_addr1#, #recevier_addr2#, 
+								#recevier_zip1#, #recevier_zip2#, #recevier_tel1#, #recevier_tel2#, #recevier_tel3#,
+								#recevier_help#, sysdate, 0, 'Y')		
+	</insert>
+
+
+
+	<!-- ====================================================== -->
+
+	<!-- 구매정보 반납 -->
+	<select id="resultorderdate" parameterClass="String"
+		resultClass="Order">
+		select * from orderProduct where order_no = #car_no#
+	</select>
+
+	<!-- 구매자 구매신청 -->
+	<insert id="insertproductorder" parameterClass="Order">
+		insert into
+		orderProduct values
+		(order_seq.nextval,#customer_id#,#product_id#,#product_listImg#,#product_name#,#product_price#,#product_count#,
+		#seller_user#,#buyer_name#,#buyer_bank#,#buyer_banknumber#,
+		#recevier_name#,#recevier_addr1#,#recevier_addr2#,#recevier_zip1#,#recevier_zip2#,
+		#recevier_tel1#,#recevier_tel2#,#recevier_tel3#,#recevier_help#,
+		sysdate,#recevier_buydate#,0,'y')
+	</insert>
+
+	<!-- 판매자 제품 삭제 신청 카운트 -->
+	<select id="getcountfordelete" parameterClass="String"
+		resultClass="java.lang.Integer">
+		select count(*) from orderProduct where seller_user=#id#
+		and deal_check=1
+	</select>
+
+	<!-- 판매자 제품 삭제 페이징 -->
+	<select id="productdeletelist" parameterClass="java.util.Map"
+		resultClass="Order">
+		<![CDATA[
+		select * from(
+			select rownum as rnum, A.* from (
+				select * from orderProduct
+				where seller_user=#puser_id# and deal_check=0
+				order by order_no desc
+				) A
+			)	
+		where rnum between #startRow# and #endRow#		
+		]]>
+	</select>
+
+	<!-- 판매자 삭제 신청 -->
+	<select id="resultusermassage" parameterClass="String"
+		resultClass="Order">
+		select * from orderProduct where product_id=#pro_id# and
+		deal_check=0
+	</select>
+
+
+	<!-- 거래성공시 업데이트 -->
+	<update id="updateorderok" parameterClass="String">
+		update orderProduct
+		set deal_check=3 , recevier_buydate=sysdate where order_no=#car_no#
+	</update>
+
+	<!-- 관리자 제품 구매 신청 리스트 -->
+	<select id="resultcheckoutcont" resultClass="java.lang.Integer">
+		select count(*) from
+		orderProduct where deal_check=0
+	</select>
+
+	<!-- 판매자 제품 구매 신청 페이징 -->
+	<select id="resultcheckoutlistmethod" parameterClass="java.util.Map"
+		resultClass="Order">
+		<![CDATA[
+		select * from(
+			select rownum as rnum, A.* from (
+				select * from orderProduct
+				where deal_check=0
+				order by order_no desc
+				) A
+			)	
+		where rnum between #startRow# and #endRow#		
+		]]>
+	</select>
+
+	<!-- 관리자 구매자 상세보기 페이징 -->
+	<select id="resultallproductcount2" resultClass="java.lang.Integer"
+		parameterClass="String">
+		select count(*) from orderProduct where
+		customer_id=#id# and deal_check=3
+	</select>
+
+	<select id="resultallproductlist2" parameterClass="java.util.Map"
+		resultClass="Order">
+		<![CDATA[
+		select * from(
+			select rownum as rnum, A.* from (
+				select * from orderProduct
+				where customer_id=#id# and deal_check=3
+				) A
+			)	
+		where rnum between #startRow# and #endRow#		
+		]]>
+	</select>
+
+	<!-- 관리자 구매자 제품 구매 신청 상세보기 -->
+	<select id="resultallproductcount3" resultClass="java.lang.Integer"
+		parameterClass="String">
+		select count(*) from orderProduct where
+		customer_id=#id# and deal_check=1
+	</select>
+
+	<select id="resultallproductlist3" parameterClass="java.util.Map"
+		resultClass="Order">
+		<![CDATA[
+		select * from(
+			select rownum as rnum, A.* from (
+				select * from orderProduct
+				where customer_id=#id# and deal_check=1
+				) A
+			)	
+		where rnum between #startRow# and #endRow#		
+		]]>
+	</select>
+
+	<!-- 관리자 등록 제품(성공) 상세보기 -->
+	<select id="resultprolistokcont" resultClass="java.lang.Integer"
+		parameterClass="String">
+		select count(*) from orderProduct where
+		product_id=#pro_id# and deal_check=3
+	</select>
+
+	<select id="resultadminproductlist" parameterClass="java.util.Map"
+		resultClass="Order">
+		<![CDATA[
+		select * from(
+			select rownum as rnum, A.* from (
+				select * from orderProduct
+				where product_id=#id# and deal_check=3
+				) A
+			)	
+		where rnum between #startRow# and #endRow#		
+		]]>
+	</select>
+
+	<!-- 관리자 등록 제품(신청) 상세보기 -->
+	<select id="resultprolistokcont1" resultClass="java.lang.Integer"
+		parameterClass="String">
+		select count(*) from orderProduct where
+		product_id=#pro_id# and deal_check=1
+	</select>
+
+	<select id="resultadminproductlist1" parameterClass="java.util.Map"
+		resultClass="Order">
+		<![CDATA[
+		select * from(
+			select rownum as rnum, A.* from (
+				select * from orderProduct
+				where product_id=#id# and deal_check=1
+				) A
+			)	
+		where rnum between #startRow# and #endRow#		
+		]]>
+	</select>
+
+	<!-- 관리자 등록정보 반납 -->
+	<select id="productregistration" parameterClass="String"
+		resultClass="Order">
+		select * from orderProduct where order_no=#cart_no#
+	</select>
+
+	<!-- 관리자 결제금액 확인시 레벌 수정 -->
+	<update id="updatedealcheck" parameterClass="String">
+		update orderProduct
+		set deal_check=1 where order_no=#car_no#
+	</update>
+
+	<!-- 관리자 회원강제 탈퉤 관련 테이블 삭제 -->
+	<update id="adminupdateorder" parameterClass="String">
+		update orderProduct
+		set deal_check=5 where seller_user=#user_id# or customer_id=#user_id#
+	</update>
+
+	<update id="deletesomedate" parameterClass="String">
+		update orderProduct
+		set deal_check=5 where order_no=#order_no#
+	</update>
+	
+</sqlMap>
+
+
+
+
+

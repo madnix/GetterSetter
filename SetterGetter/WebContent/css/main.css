@@ -1,0 +1,39 @@
+﻿@charset "utf-8";
+/* import */
+@import url(base.css); /* reset, font, link, skip */
+@import url(layout.css); /* layout */
+
+/* main.css */
+
+/* article */
+#articleWrap{}
+#article{width:1000px; height:445px; margin:0 auto;}
+
+#visual{float:left; border:7px solid #e5e5e3; width:816px; height:434px;}
+#visual ul.visual_list{ width:816px; height:434px; overflow:hidden;}
+
+#line_list{float:left; margin-bottom:30px;}
+#line_list ul{border-top:7px solid #e5e5e3; border-bottom: 7px solid #e5e5e3;border-left: 2px solid #e5e5e3; border-right: 7px solid #e5e5e3;}
+#line_list ul li{}
+
+/* maincontents */
+#maincontents{width:1000px; height:1720px; margin:0 auto;}
+#maincontents p{text-align: center;}
+/* maincontents */
+#maincontents{width:1000px; height:830px; margin:0 auto;}
+#maincontents p{text-align: center;}
+
+#best_item{width:990px; overflow:hidden;}
+#best_item h3{margin-bottom:5px;}
+.viewer{width:990px; overflow:hidden;}
+#best_item ul{ overflow:hidden; float:left; width:13000px;}
+
+#best_item ul li{float:left;}
+
+#new_item h3{float:left; margin-top: 55px; margin-bottom:5px;}
+#new_item ul{float:left;}
+
+#new_item ul{ padding-top: 50px;}
+#new_item ul li{float:left; margin-left:20px;}
+#new_item ul li.first{ margin-left:0;}
+

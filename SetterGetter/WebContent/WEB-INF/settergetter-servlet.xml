@@ -1,0 +1,313 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+	<!-- HandlerMapping -->
+	<bean id="handlerMapping"
+		class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
+		<property name="mappings">
+			<value>
+				/main.do=mainController					<!-- 메인페이지 -->
+
+
+				<!-- controller.join.JoinController로 등록 -->
+
+				/buyer_mypage.do=mainController				<!-- 구매자 마이페이지 -->
+				/seller_mypage.do=mainController			<!-- 판매자 마이페이지 -->
+
+
+				<!-- controller.join.JoinController로 등록 -->
+
+				/join_select.do=joinselectController		<!-- 회원가입 선택페이지(구매자/판매자) -->
+				/join_buy_form.do=joinbuyformController		<!-- 구매자 회원가입 폼 페이지 -->
+				/join_sell_form.do=joinsellformController	<!-- 판매자 회원가입 폼 페이지 -->
+				/idcheck.do=idcheckController		<!-- 아이디중복체크 -->
+				/zipcode.do=zipcodeController		<!-- 우편번호 검색 -->
+
+				<!-- controller.join.LoginController로 등록 / memberService로 DI 설정 -->
+				
+<!-- controller.edit.EditController로 등록 -->				
+				/buyer_edit.do=memberEditController			<!-- 구매자 회원정보수정 -->
+				/buyeredit_ok.do=memberEditController		<!-- 구매자 회원정보수정 완료 -->
+				/seller_edit.do=memberEditController		<!-- 판매자 회원정보수정 -->
+				/selleredit_ok.do=memberEditController		<!-- 판매자 회원정보수정 완료 -->
+				
+							
+<!-- controller.join.LoginController로 등록 / memberService로 DI 설정 -->				
+
+				/login.do=loginController		<!-- 로그인 페이지 -->
+				/logout.do=loginController		<!-- 로그아웃 페이지 -->
+				/searchid.do=searchidController		<!-- 아이디찾기 페이지 -->
+				/searchpwd.do=searchpwdController	<!-- 비밀번호찾기 페이지 -->
+
+				/product_list.do=productListController	<!-- 상품리스트 -->
+				/product_view.do=productDetailController	<!-- 상품상세보기 -->
+				/product_insert.do=productController <!-- 상품등록 -->
+				/product_comment.do=productcommentController	<!-- 상품평달기 -->
+				/product_comment_del.do=productcommentdelController		<!-- 상품평삭제 -->
+				
+				/cart.do=cartController				<!-- 장바구니 담기 -->
+				/cart_delete.do=cartDeleteController		<!-- 장바구니 물품 삭제 -->
+				/cart_selectdelete.do=cartSelectDeleteController	<!-- 장바구니 선택물품 삭제 -->
+				/cart_countmodify.do=cartCountModifyController	<!-- 장바구니 물품 수량 변경 -->
+				
+				/cart_order.do=cartOrderController	<!-- 장바구니 물품 주문(하나) -->
+				/cart_selectorder.do=cartSelectOrderController	<!-- 장바구니 물품 주문(다수) -->
+				
+				/order_ask.do=orderAskController	<!-- 구매신청 -->
+				/order_ask_ok.do=orderAskOkController	<!-- 구매신청완료 -->
+					
+
+<!-- 게시판 -->
+				/board_list.do=boardlistController 		<!-- 게시판 리스트 -->
+				/board_write.do=boardwriteController	<!-- 게시판 쓰기 -->
+				/board_view.do=boardviewController		<!-- 게시판 내용보기 -->
+				/board_edit.do=boardeditController		<!-- 게시판 수정 -->
+				/board_del.do=boarddelController		<!-- 게시판 내용 삭제 -->
+				/board_search.do=boardsearchController	<!-- 게시판 내용 검색 -->
+				
+				/board_reply.do=boardreplyController	<!-- 게시판 답글 -->
+
+<!-- 기능 -->
+				/seller_product_ok.do=productUtilController         <!-- 판매자 제품 관리 -->
+				/buyer_product_detail_ok.do=productUtilController   <!-- 판매자 구매 확인시 각종 업데이트 -->
+				/delelteproductok.do=productUtilController          <!-- 판매자 제품 등록 실패 확인 -->
+				/product_application_delete.do=productUtilController  <!-- 판매자 제품 삭제 유무 신청 -->
+				
+<!-- 리스트 -->				
+				<!-- 판매자 등록/구매/실패 확인 -->
+				/product_insert_list.do=productListController       <!-- 판매자 제품등록 리스트 -->
+				/buyer_product_list.do=productListController        <!-- 판매자 구매확인 리스트 -->
+				/product_delete_list.do=productListController       <!-- 판매자 등록실패 리스트 -->
+				<!-- 제품 리스트 -->
+				/product_list.do=productListController	            <!-- 상품리스트 -->
+
+<!-- 등록 -->				
+				/product_order_insert.do=productInsertController <!-- 구매자 구매 신청 -->
+				/product_insert.do=productInsertController       <!-- 판매자 상품 등록 -->
+				
+<!-- 상세보기 -->
+				/product_view.do=productDetailController	       <!-- 상품상세보기 -->
+				/product_insert_detail.do=productDetailController  <!-- 판매자 등록성공 제품 상세보기 -->
+				/buyer_product_detail.do=productDetailController	   <!-- 판매자 제품 구매 신청 상세정보 -->
+				/product_delete_detail.do=productDetailController   <!-- 판매자 제품 등록 실패 상세정보 -->
+				
+<!-- 관리자 -->				
+				<!-- 관리자품 -->
+				/admin.do=adminController               <!-- 관리자품 -->
+				/adminpuser.do=adminController               <!-- 판매자품 -->
+				/admincuser.do=adminController               <!-- 구매자품 -->
+				/prolist.do=adminController               <!-- 제품리스트 -->
+				/rbox.do=adminController               <!-- 제품등록신청 -->
+				/checkout.do=adminController               <!-- 결제함 -->
+
+				<!-- 관리자 상세보기 -->
+				/puserdetaillist.do=adminDetailController <!-- 판매자 상세정보  -->
+				/cuserdetaillist.do=adminDetailController <!-- 구매자 상세정보  -->
+				/productlistok.do=adminDetailController   <!-- 등록 제품 상세보기  -->
+				/productlistok2.do=adminDetailController   <!-- 등록 제품 (신청) 상세보기  -->
+				/receptionlistdetail.do=adminDetailController   <!-- 관리자 제품 등록 상세보기  -->
+				/checkoutlistdetail.do=adminDetailController   <!-- 관리자 구매신청 상세보기  -->
+				/cuserdetaillistok.do=adminUtilController      <!-- 구매자 구매 신청 상세보기 -->
+				/productdetailepage.do=adminDetailController     <!-- 관리자 상세페이지 -->
+				
+				<!-- 관리자 기능 -->
+				/checkoutdetailok.do=adminUtilController  <!-- 구매신청시 결제금액 확인 -->
+				/outmember.do=adminUtilController         <!-- 관리자 유저 강제 탈퉤 -->
+				/insertproductok.do=adminUtilController   <!-- 관리자 제품 등록 성공 -->
+				/receptproduct.do=adminUtilController     <!-- 관리자 제품 등록 실패 -->
+				/deletesomedate.do=adminUtilController    <!-- 관리자 삭제 기능 -->
+
+			</value>
+		</property>
+	</bean>
+
+	<bean id="mainController" class="controller.main.MainController" 
+		p:productService-ref="productService" />
+
+	<bean id="joinselectController" class="controller.join.JoinController" />
+
+	<!-- 구매자 회원가입 -->
+	<bean id="joinbuyformController" class="controller.join.JoinController"
+		p:memberService-ref="memberService">			<!-- 회원가입 서비스 DI -->
+	</bean>
+	<!-- 판매자 회원가입 -->
+	<bean id="joinsellformController" class="controller.join.JoinController"
+		p:memberService-ref="memberService">
+	</bean>
+
+	<!-- 아이디 중복체크 -->
+	<bean id="idcheckController" class="controller.join.JoinController"
+		p:memberService-ref="memberService">
+	</bean>
+
+	<!-- 우편번호 검색 -->
+	<bean id="zipcodeController" class="controller.join.JoinController"
+		p:memberService-ref="memberService">
+	</bean>
+
+	<bean id="loginController" class="controller.login.LoginController"
+		p:memberService-ref="memberService"></bean>
+
+
+	<!-- 아이디 찾기 -->
+	<bean id="searchidController" class="controller.login.LoginController"
+		p:memberService-ref="memberService" p:mailSender-ref="mailSender">
+	</bean>
+
+	<!-- 비밀번호 찾기 -->
+	<bean id="searchpwdController" class="controller.login.LoginController"
+		p:memberService-ref="memberService" p:mailSender-ref="mailSender">
+	</bean>
+	
+	<!-- 구매자 회원정보 수정 -->
+	<bean id="memberEditController" class="controller.edit.EditController"
+			p:memberService-ref="memberService" ></bean>
+
+	<!-- 판매자 제품 신청 확인 -->	
+	<bean id="productUtilController" class="controller.product.ProductUtilController"
+		p:productService-ref="productService" />
+
+
+
+	<!-- 물품등록 -->
+	<bean id="productInsertController" class="controller.product.ProductInsertController"
+		p:productService-ref="productService" />
+
+	<!-- 물품 리스트 -->
+	<bean id="productListController" class="controller.product.ProductListController"
+		p:productService-ref="productService" />
+	
+	<!-- 물품 상세보기 -->
+	<bean id="productDetailController" class="controller.product.ProductDetailController"
+		p:productService-ref="productService"
+		p:commentService-ref="commentService"  
+		p:memberService-ref="memberService" />
+		
+	<!-- 물품 댓글달기 -->
+	<bean id="productcommentController" class="controller.product.ProductDetailController"
+		p:commentService-ref="commentService" 
+		p:memberService-ref="memberService" />
+		
+	<!-- 물품 댓글달기 -->
+	<bean id="productcommentdelController" class="controller.product.ProductDetailController"
+		p:commentService-ref="commentService" />
+
+	
+	<!-- 장바구니 기능 -->
+	<bean id="cartController" class="controller.order.CartController"
+		p:memberService-ref="memberService" 
+		p:productService-ref="productService" 
+		p:cartService-ref="cartService" />
+	<!-- 장바구니 물품 삭제(하나) -->	
+	<bean id="cartDeleteController" class="controller.order.CartController"
+		p:cartService-ref="cartService" />
+	<!-- 장바구니 수량 변경 -->
+	<bean id="cartCountModifyController" class="controller.order.CartController" 
+		p:productService-ref="productService"
+		p:cartService-ref="cartService" />
+	<!-- 장바구니 선택물품 삭제 -->
+	<bean id="cartSelectDeleteController" class="controller.order.CartController"
+		p:cartService-ref="cartService" />	
+		
+	<!-- 장바구니 물품 주문(하나) -->
+	<bean id="cartOrderController" class="controller.order.OrderController"
+		p:memberService-ref="memberService" 
+		p:productService-ref="productService"
+		p:cartService-ref="cartService" />
+	
+	<!-- 장바구니 물품 주문(다수) -->	
+	<bean id="cartSelectOrderController" class="controller.order.OrderController"
+		p:memberService-ref="memberService" 
+		p:productService-ref="productService"
+		p:cartService-ref="cartService" />
+		
+	<!-- 구매신청 -->	
+	<bean id="orderAskController" class="controller.order.OrderController"
+		p:cartService-ref="cartService"	/>
+	<!-- 구매신청 완료 -->
+	<bean id="orderAskOkController" class="controller.order.OrderController" 
+		p:cartService-ref="cartService"	/>	
+
+	
+		
+	<!-- <property name="saveFolder"> <value>C:/oraclejava/Workspace/new-FrameWork/SetterGetter/WebContent/Upload 
+		</value> 이미지 파일경로 </property> </bean> -->
+
+		
+<!-- ======================  게시판 관련  ========================== -->
+	
+	<!-- 게시판 리스트 -->
+	<bean id="boardlistController" class="controller.board.BoardController"
+	p:boardService-ref="boardService">
+	</bean>
+	
+	<!-- 게시판 쓰기 -->
+	<bean id="boardwriteController" class="controller.board.BoardController"
+	p:boardService-ref="boardService"
+	p:memberService-ref="memberService" >
+	</bean>
+	
+	<!-- 게시판 내용보기 -->
+	<bean id="boardviewController" class="controller.board.BoardController"
+	p:boardService-ref="boardService" >
+	</bean>
+	
+	<!-- 게시판 수정 -->
+	<bean id="boardeditController" class="controller.board.BoardController"
+	p:boardService-ref="boardService">
+	</bean>
+	
+	<!-- 게시판 내용 삭제 -->
+	<bean id="boarddelController" class="controller.board.BoardController"
+	p:boardService-ref="boardService">
+	</bean>
+	
+	<!-- 게시판 검색 -->
+	<bean id="boardsearchController" class="controller.board.BoardController"
+	p:boardService-ref="boardService">
+	</bean>
+	
+	<!-- 게시판 답글 -->
+	<bean id="boardreplyController" class="controller.board.BoardController"
+	p:boardService-ref="boardService"
+	p:memberService-ref="memberService" >
+	</bean>
+	
+	
+
+<!-- ======================  게시판 끝  ========================== -->	
+
+
+<!-- ================================== 관리자 ============================ -->	
+
+	<!-- 관리자품 -->
+	<bean id="adminController" class="controller.Admin.AdminController" p:adminService-ref="adminService"/>
+		
+	<!-- 관래자 상세정보 -->
+	<bean id="adminDetailController" class="controller.Admin.AdminDetailController" p:adminService-ref="adminService"/>
+	
+	<!-- 관리자 기능 -->
+	<bean id="adminUtilController" class="controller.Admin.AdminUtilController" p:adminService-ref="adminService"/>
+
+<!-- ========================== 관리자 끝 ========================= -->	
+	
+	<!-- ViewResolver -->
+	<bean id="internalResourceViewResolver"
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="viewClass">
+			<value>org.springframework.web.servlet.view.JstlView</value>
+		</property>
+		<property name="prefix">
+			<value>jsp/</value>
+		</property>
+		<property name="suffix">
+			<value>.jsp</value>
+		</property>
+	</bean>
+
+</beans>
+
+

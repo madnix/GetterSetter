@@ -1,0 +1,28 @@
+/* base.css */
+/* reset */
+html, body, div, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, address, dl, dt, dd, ol, ul, li, fieldset, form, legend, table, caption, tbody, tfoot, thead, tr, td, input, select, textarea{margin:0; padding:0}
+hr{display:none;}
+ul, ol, li{list-style:none;}
+img, fieldset{border:none;}
+h1, h2, h3, h4, h5, h6{font-size:100%}
+table{border-collapse:collapse;}
+address, em, optgroup{font-style:normal;}
+object{vertical-align:top;}
+input, button, select{vertical-align:middle;}
+
+/* font */
+body{color:#7a7a7a; font:small "돋움", Dotum, sans-serif;}
+th, td, input, select, textarea{color:#7a7a7a; font:100% "돋움", Dotum, sans-serif;}
+
+/* linkstyle */
+a{color:#464646; text-decoration:none;}
+a:hover, a:active, a:focus{text-decoration:underline;}
+
+/* skip */
+.skip, legend, caption{position:absolute; left:-5000px; width:0; height:0; font-size:0; line-height:0; overflow:hidden;}
+caption{position:static;}
+/* skipNavi */
+#skipNavi{position:absolute; left:0; top:0; z-index:5; width:100%;}
+#skipNavi li{position:absolute; left:0; top:0; z-index:5; width:100%;}
+#skipNavi a{display:block; width:1px; height:1px; margin-bottom:-1px; font-size:0; overflow:hidden;}
+#skipNavi a:active, #skipNavi a:focus{width:100%; height:auto; padding:5px 0; background:#eee; font-size:1em; text-align:center;}

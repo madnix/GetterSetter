@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="Post">
+
+  <typeAlias alias="Post" type="model.PostBean"/>
+
+  <resultMap id="PostResult" class="Post">
+    <result property="seq" column="seq" columnIndex="1"/>
+    <result property="zipcode" column="zipcode" columnIndex="2"/>
+    <result property="sido" column="sido" columnIndex="3"/>
+    <result property="gugun" column="gugun" columnIndex="4"/>
+    <result property="dong" column="dong" columnIndex="5"/>
+    <result property="ri" column="ri" columnIndex="6"/>
+    <result property="st_bunji" column="st_bunji" columnIndex="7"/>
+    <result property="ed_bunji" column="ed_bunji" columnIndex="8"/>
+
+  </resultMap>
+
+<!-- 우편번호 찾기 -->
+	<select id="searchZipcode" resultMap="PostResult" parameterClass="String">
+		select *
+		from post
+		where ri like '%'||#dong#||'%' or dong like '%'||#dong#||'%'
+		
+	</select>
+
+
+
+</sqlMap>

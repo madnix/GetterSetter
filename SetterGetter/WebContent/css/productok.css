@@ -1,0 +1,51 @@
+@charset "utf-8";
+/* import */
+@import url(base.css); /* reset, font, link, skip */
+@import url(layout.css); /* layout */
+
+
+/* 주문 페이지 */
+#product_ok{width:1000px; margin:0 auto; }
+
+#p_list{border-top:8px solid #e5e5e3;background:url(../images/cart/bord_bg.gif) repeat-x top left;}
+#p_list th{color:#313131; height:32px;}
+#p_list td{height:30px;
+background:url(../images/cart/borad_bottom_line.gif) repeat-x left bottom;
+text-align:center;
+padding:3px 0;
+}
+
+/* 주문자 정보 */
+input.textBox{border:1px solid #969696;
+height:17px;
+margin-bottom:1px;
+padding:0 2px;
+}
+#oder_add{margin-top:50px; }
+.o_info, .s_info, .p_info{width:1000px;border-top:1px solid red;}
+.o_info th, .o_info td,.s_info th, .s_info td, .p_info th, .p_info td{
+	border-bottom:1px solid #e8e8e8;
+	color:#3f3e3e;
+}
+.o_info th, .s_info th, .p_info th{
+	padding:6px 10px;
+	background:#fffcef;
+	font-weight:bold;
+	width:200px;
+	
+}
+.o_info td, .s_info td, .p_info td{
+	padding:6px 15px;
+	
+}
+/* 받는사람 */
+#send_add{margin-top:50px;}
+#send_add p{position:relative; top:10px; left:900px;}
+
+
+
+/* 결재정보 */
+#sell_info{margin-top:50px;}
+
+.p_btn{position:relative; top:10px; left:900px;}
+

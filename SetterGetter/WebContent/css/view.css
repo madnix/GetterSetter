@@ -1,0 +1,20 @@
+/* view.css */
+
+
+/* detail list */
+#detail{width:1000px; margin:0 auto; padding:30px 0; border-top:8px solid #e5e5e3;}
+#product_view{float: left;}
+
+#product_add{float: left; padding-left:80px;}
+#product_add p{padding-bottom: 20px;}
+#product_add th{text-align:left;}
+#product_add td{padding:15px 0;}
+#p_info {margin:30px 0;}
+#p_info table{width:900px;}
+#p_info tr{border-top:2px solid #e5e5e3;}
+#p_info th{border-right:2px solid #e5e5e3;text-align:left; height:20px;padding-left:70px;}
+#p_info td{border-right:2px solid #e5e5e3;height:15px; padding-left:70px;}
+#p_info td.end{border-right:none;}
+
+
+/* info_detail */

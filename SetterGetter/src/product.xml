@@ -1,0 +1,266 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="Product">
+	<typeAlias alias="Product" type="model.ProductInsertBean" />
+
+ 	<resultMap class="Product" id="resultProduct">
+		<result property="pro_id" column="pro_id" columnIndex="1"/>
+		<result property="user_id" column="user_id" columnIndex="2"/>
+		<result property="pro_title" column="pro_title" columnIndex="3"/>
+		<result property="pro_listImg" column="pro_listImg" columnIndex="4"/>
+		<result property="pro_detailTopImg" column="pro_detailTopImg" columnIndex="5"/>
+		<result property="pro_detailImg" column="pro_detailImg" columnIndex="6"/>
+		<result property="pro_cont" column="pro_cont" columnIndex="7"/>
+		<result property="species_id" column="species_id" columnIndex="8"/>
+		<result property="pro_count" column="pro_count" columnIndex="9"/>
+		<result property="pro_price" column="pro_price" columnIndex="10"/>
+		<result property="user_price" column="user_price" columnIndex="11"/>
+		<result property="pro_status" column="pro_status" columnIndex="12"/>
+		<result property="pro_origin" column="pro_origin" columnIndex="13"/>
+		<result property="pro_make" column="pro_make" columnIndex="14"/>
+		<result property="pro_as" column="pro_as" columnIndex="15"/>
+		<result property="pro_brand" column="pro_brand" columnIndex="16"/>
+		<result property="pro_receipt" column="pro_receipt" columnIndex="17"/>
+		<result property="admin_reply" column="admin_reply" columnIndex="18"/>
+		<result property="pro_banknum" column="pro_banknum" columnIndex="19"/>
+		<result property="pro_bank" column="pro_bank" columnIndex="20"/>
+		<result property="pro_num" column="pro_num" columnIndex="21"/>
+		<result property="pro_hit" column="pro_hit" columnIndex="22"/>
+		<result property="pro_level" column="pro_level" columnIndex="23"/>
+		<result property="pro_date" column="pro_date" columnIndex="24"/>
+
+	</resultMap>
+
+	<insert id="insertproduct" parameterClass="Product">
+		insert into productinsert
+		values(pro_seq.nextval,#user_id#,#pro_title#,#pro_listImg#,#pro_detailTopImg#,#pro_detailImg#,
+		#pro_cont#,#species_id#,#pro_count#,#pro_price#,#user_price#,#pro_status#,#pro_origin#,#pro_make#,
+		#pro_as#,#pro_brand#,#pro_receipt#,#admin_reply#,#pro_banknum#,#pro_bank#,0,0,0,sysdate)
+	</insert>
+	
+	<select id="resultproductinsertlist" resultMap="resultProduct" parameterClass="String">
+		select * from productinsert where user_id=#id# and pro_level=2 order by pro_id desc
+	</select>
+	
+	<select id="resultList" resultMap="resultProduct">
+		select * from productinsert
+	</select>
+	
+	
+	<!-- 조회수 증가  -->
+	<update id="updateHit" parameterClass="String">
+		update productinsert set pro_hit=pro_hit+1 where pro_id=#id#
+	</update>
+	
+	<!-- 제품 갯수 감소 -->
+	<update id="updateprocount" parameterClass="java.util.Map">
+		update productinsert set pro_count=pro_count-#count# where pro_id=#id#
+	</update>
+	
+	<!-- 제품 판매 횟수 증가 -->
+	<update id="updatepronum" parameterClass="String">
+		update productinsert set pro_num=pro_num+1 where pro_id=#pro_id#
+	</update>
+	
+	<select id="resultProdctDetail" resultMap="resultProduct" parameterClass="String">
+		select * from productinsert where pro_id=#id# 
+	</select>
+	
+	
+	<!-- 해당 종류에 해당하는 제품 갯수 -->
+	<select id="getTotalCnt" resultClass="java.lang.Integer" parameterClass="String">
+		select count(*) as sum
+		from productinsert
+		where species_id=#species# and pro_level=2
+	</select>
+	
+	<!-- 해당 종류에 해당하는 제품 리스트 -->
+	<select id="getProductInfo" parameterClass="java.util.Map" resultClass="Product">
+		<![CDATA[
+			select pro_id, pro_title, pro_listImg, pro_price, user_price
+			from(
+				select pro_id, pro_title, pro_listImg, pro_price, user_price, rownum as rnum
+				from(
+					select *
+					from productinsert
+					where species_id=#species# and pro_level=2
+					order by pro_id desc
+					)
+				)
+			where rnum between #startRow# and #endRow#
+		]]>
+	</select>
+	
+	<!-- 해당 아디값에 품목 세부정보 -->
+	<select id="getDetailInfo" parameterClass="String" resultClass="Product">
+		select * 
+		from productinsert
+		where pro_id=#pro_id#
+	</select>
+	
+	
+	<!-- 메인화면에서 최근에 들어온 제품 정보 가져오기 (최근날짜에 조회수 높은 순) -->
+	<select id="getRecentlyProduct" resultClass="Product">
+	<![CDATA[
+		select pro_id, pro_title, pro_listImg, user_price, pro_hit, pro_date
+		from (	select pro_id, pro_title, pro_listImg, user_price,pro_hit,pro_date, rownum
+				from productinsert 
+				where pro_level=2
+				order by pro_date desc, pro_hit asc
+			)
+		where 0 < rownum and rownum <= 16
+	]]>
+	</select>
+	
+	<!-- 판매자 제품 등록 신청 페이징 콘트 -->
+	<select id="getTotalCont" resultClass="java.lang.Integer">
+		select count(*) from productinsert where user_id=#id# and pro_level=2
+	</select>
+	
+	<!-- 판매자 제품 등록 신청 확인 페이징 -->
+	 <select id="selectpage" parameterClass="java.util.Map" resultClass="Product">
+		<![CDATA[
+		select *
+		from(
+			select rownum as rnum, A.*
+			from (
+				select *
+				from productinsert
+				where user_id=#user_id# and pro_level=2
+				order by pro_id desc
+				) A
+			)	
+		where rnum between #startRow# and #endRow#		
+		]]>	
+	</select> 
+	
+	<!-- 제품등록 날짜 바납 -->
+	<select id="getTime" parameterClass="String" resultClass="Product">
+		select * from productinsert where pro_level=1
+	</select>
+	
+	<!-- 판매자 제품 등록 실패 3일 후 자동 삭제 -->
+	<update id="updateproductlevel" parameterClass="java.util.Map">
+		update productinsert set pro_level=3 where user_id=#id# and pro_id=#pro_id#
+	</update>
+	
+	<!-- 판매자 제품등록 실패 카운트 -->
+	<select id="resultcountforproduct" resultClass="java.lang.Integer">
+		select count(*) from productinsert where user_id=#id# and pro_level=1
+	</select>
+	
+	<!-- 판매자 제품등록 실패 페이징 -->
+	<select id="resultproductlist" parameterClass="java.util.Map" resultClass="Product">
+		<![CDATA[
+		select *
+		from(
+			select rownum as rnum, A.*
+			from (
+				select *
+				from productinsert
+				where user_id=#user_id# and pro_level=1
+				order by pro_id desc
+				) A
+			)	
+		where rnum between #startRow# and #endRow#		
+		]]>	
+	</select>
+		
+	<!-- 제품 아이디로  제품등록  정보 반납  -->
+	<select id="resutlproductmethod" parameterClass="String" resultClass="Product">
+		select * from productinsert where pro_id = #pro_id# 
+	</select>
+	
+	<!-- 관리자 제품 리스트 -->
+	<select id="resultprocount" resultClass="java.lang.Integer" >
+		select count(*) from productinsert where pro_level = 2
+	</select>
+	
+	<!-- 관리자 등록 제품 페이징 -->
+	<select id="resultprolist" resultClass="Product">
+		<![CDATA[
+		select *
+		from(
+			select rownum as rnum, A.*
+			from (
+				select *
+				from productinsert
+				where pro_level=2 order by pro_date desc , pro_id desc
+				) A
+			)	
+		where rnum between #startRow# and #endRow#		
+		]]>	
+	</select>
+		
+	<!-- 관리자 제품 등록 확인 -->
+	<select id="resultrboxcount" resultClass="java.lang.Integer">
+		select count(*) from productinsert where pro_level=0
+	</select>
+	
+	<!-- 판매자 제품등록 페이징 -->
+	<select id="resultreceptionlist" resultClass="Product">
+		<![CDATA[
+		select *
+		from(
+			select rownum as rnum, A.*
+			from (
+				select *
+				from productinsert
+				where pro_level=0
+				) A
+			)	
+		where rnum between #startRow# and #endRow#		
+		]]>	
+	</select>
+	
+	<!-- 관리자 등록 제품 페이징 -->
+	<select id="resultallproductcount" resultClass="java.lang.Integer" parameterClass="String">
+		select count(*) from productinsert where user_id=#puserid# and pro_level=2
+	</select>
+	
+	<select id="resultallproductlist" parameterClass="java.util.Map" resultClass="Product">
+		<![CDATA[
+		select *
+		from(
+			select rownum as rnum, A.*
+			from (
+				select *
+				from productinsert
+				where user_id=#id# and pro_level=2
+				order by pro_id desc
+				) A
+			)	
+		where rnum between #startRow# and #endRow#		
+		]]>	
+	</select>
+	
+	<!-- 거래성공시 업데이트 -->
+	<update id="updateproductok" parameterClass="java.util.Map">
+		update productinsert set pro_num = pro_num + 1 , pro_count = pro_count - #pro_count# where pro_id=#pro_id# 
+	</update>
+	
+	<update id="insertproductok" parameterClass="String" >
+		update productinsert set pro_level=2 where pro_id=#pro_id#
+	</update>
+	
+	<update id="receptproduct" parameterClass="java.util.Map">
+		update productinsert set admin_reply=#adminreply# , pro_level=1 where pro_id=#pro_id#
+	</update>
+	
+	<update id="deleteproductok" parameterClass="String">
+		update productinsert set pro_level=3 where pro_id=#pro_id#
+	</update>
+	
+	<!-- 판매자 제품 삭제 -->
+	<update id="updateprolevel">
+		update productinsert set pro_level=3 where pro_id=#pro_id#
+	</update>
+	<select id="bestProduct" resultClass="Product">
+
+		select * from (select * from productinsert where pro_level=2 order by pro_num desc) where rownum &lt;= 5
+	</select>
+</sqlMap>    

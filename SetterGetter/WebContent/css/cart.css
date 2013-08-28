@@ -1,0 +1,20 @@
+@charset "utf-8";
+/* import */
+@import url(base.css); /* reset, font, link, skip */
+@import url(layout.css); /* layout */
+
+
+/* cart */
+#product_cart{width:1000px; height:830px;margin:0 auto; }
+#cart_box_on{border-top:8px solid #e5e5e3;background:url(../images/cart/bord_bg.gif) repeat-x top left;}
+#cart_box_on th{color:#313131; height:32px;}
+#cart_box_on td{height:29px; background:url(../images/cart/borad_bottom_line.gif) repeat-x left bottom;text-align:center;padding:3px 0;}
+#cart_box_on td.p_title{text-align:left;}
+.count_in{width:20px;}
+#btn_area{position:relative; top:-28px; left:820px;}
+#btn_area p{float:left;}
+
+#cart_box_off {border-top:8px solid #e5e5e3; border-bottom:1px solid #e5e5e3;}
+#cart_box_off p{padding-left:410px;}
+
+

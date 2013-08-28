@@ -1,0 +1,37 @@
+@CHARSET "EUC-KR";
+
+/* import */
+@import url(base.css); 		/* reset, font, link, skip */
+@import url(layout.css); 	/* layout */
+
+/* 중간 선들 */
+
+#main_line{height:10px; width:990px; background-color:#dbdbdb; margin-right:auto; margin-left:auto;margin-top:-30px;}
+.menulist{position:relative; top:10px; left:800px;}
+.menulist li{float:left; padding-left:5px;}
+#gray_Box {background-color:#ccc; height:2px; whitd:auto;}
+/* 초록색 줄 */
+#green_Box {background-color:#6E8B3D; height:1px; width:auto; box-shadow:0 1px 0 0 #CAFF70;}
+
+/* 고정 번호, 제목, 이름, 부분 싸이즈 */
+#board_spare{height:20px; width:990px;}
+
+/* 고정 스페어 */
+#board_Wrap {height:40px; width:900px; margin-right:auto; margin-left:auto; margin-top:30px; font-size:25px;}
+/* 메인 포장 틀 */
+#board_Wrap2 {height:700px; width:900px; margin-right:auto; margin-left:auto; margin-top:50px;font-size:15px;}
+
+/* 글쓰기 위치 */
+#list_menu {margin:20px 0 0 785px; height:40px; font-size:20px; }
+/* 페이징 위치 */
+#list_paging { width:900px; text-align:center; float:right; padding:20px; margin-right:auto; margin-left:auto; }
+
+/* 검색내용 찾기 */
+#board_search{width:700px; height:40px; text-align:center; align:right;}
+/* 전체글 */
+#move_all{margin-top:-40px;}
+/* 검색창 */
+#search{margin-right:250px; margin-left:300px;}
+#image_box{margin-right:250px; margin-left:550px; margin-top:-25px; }
+
+

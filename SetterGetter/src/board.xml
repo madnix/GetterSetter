@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+ <sqlMap namespace="Board">
+ 
+ 	<typeAlias alias="Board"  type="model.BoardBean"/>
+ 	
+ 	<resultMap id="BoardResult" class="Board">
+ 		<result property="board_no" column="no" columnIndex="1"/>
+ 		<result property="board_id" column="id" columnIndex="2"/>
+ 		<result property="board_section" column="section" columnIndex="3"/>
+ 		<result property="board_title" column="title" columnIndex="4"/>
+ 		<result property="board_name" column="name" columnIndex="5"/>
+ 		<result property="board_email1" column="email1" columnIndex="6"/>
+ 		<result property="board_email2" column="email2" columnIndex="7"/>
+ 		<result property="board_cont" column="cont" columnIndex="8"/>
+ 		<result property="board_pwd" column="pwd" columnIndex="9"/>
+ 		<result property="board_secret" column="secret" columnIndex="10"/>
+ 		<result property="comment_total" column="comment_total" columnIndex="11"/>
+ 		<result property="reply_select_no" column="reply_select_no" columnIndex="12"/>
+ 		<result property="reply_level" column="reply_level" columnIndex="13"/>
+ 		<result property="reply_seq" column="reply_seq" columnIndex="14"/>
+ 		<result property="hit" column="hit" columnIndex="15"/>
+ 		<result property="board_date" column="regdate" columnIndex="16"/>
+ 		<!-- property="BoardBean=명령어" column="DB 명령어" -->
+	
+ 	</resultMap>
+ 
+ 	
+ <!-- =================== 게시판 전체 내용 수 =================== -->	
+ 	<select id="totalCnt" resultClass="java.lang.Integer">
+ 		select count(*) as sum from board_list
+ 	</select>
+ <!-- =================== 게시판 목록 =================== -->
+ 	<select id="boardListGet" parameterClass="java.util.Map" resultMap="BoardResult">
+ 		<![CDATA[
+		select no, id, section, title, name, email1, email2, cont, pwd, secret, comment_total, reply_select_no, reply_level, reply_seq, hit, regdate 
+		from(
+			select no, id, section, title, name, email1, email2, cont, pwd, secret, comment_total, reply_select_no, reply_level, reply_seq, hit, regdate, rownum as rnum 
+			from (
+				select *
+				from board_list
+				order by reply_select_no desc, reply_seq
+				)
+			)	
+ 		where rnum between #startRow# and #endRow#		 
+		]]>		
+ 	</select>
+ 	
+ <!-- =================== 게시판 작성 =================== -->
+ 	<insert id="insertBoard" parameterClass="Board">
+ 		insert into board_list(no, id, section, title, name, email1, email2, cont, pwd, secret, comment_total, reply_select_no, reply_level, reply_seq, hit, regdate)
+ 			values(seq_board.nextval, #board_id#, #board_section#, #board_title#, #board_name#, #board_email1#, #board_email2#, #board_cont#
+ 			, #board_pwd#, #board_secret#, #comment_total#, seq_board.nextval, #reply_level#, #reply_seq#, #hit#, sysdate)
+ 	</insert>
+ 	
+ 	
+ 	
+ <!-- =================== 게시판 내용 보기 =================== -->
+ 	<select id="boardViewGet" parameterClass="Integer" resultMap="BoardResult">
+ 		select * from board_list where no=#board_no#
+ 	</select>
+ <!-- =================== 조회수 증가 =================== -->
+ 	<insert id="boardHit" parameterClass="Integer">
+ 		update board_list set hit = hit + 1 where no=#board_no#
+ 	</insert>
+ 	
+ 	
+ 	
+ <!-- =================== 게시판 내용 수정 보기 =================== -->
+ 	<select id="board_edit" parameterClass="Integer" resultMap="BoardResult">
+ 		select * from board_list where no=#board_no#
+ 	</select>
+ <!-- =================== 게시판 비밀번호 확인 =================== -->	
+ 	<select id="pwd_check" parameterClass="Integer" resultMap="BoardResult">
+ 		select * from board_list where no=#board_no#
+ 	</select>
+ <!-- =================== 게시판 내용 수정 완료 =================== -->
+ 	<insert id="board_edit_ok" parameterClass="Board">
+ 		update board_list set title=#board_title#, name=#board_name#, email1=#board_email1#, email2=#board_email2#, cont=#board_cont#, pwd=#board_pwd#, secret=#board_secret# where no=#board_no#
+ 	</insert>
+ 	
+ 	
+ 	
+ <!-- =================== 게시판 내용 수정 삭제 비밀번호 불러오기 =================== -->
+ 	<select id="boardPwd" parameterClass="Integer" resultMap="BoardResult">
+ 		select * from board_list where no=#board_no#
+ 	</select>
+ <!-- =================== 게시판 내용 수정 삭제 =================== -->
+ 	<update id="board_del" parameterClass="Integer">
+ 		delete from board_list where no=#board_no#
+ 	</update>
+ 	
+ <!-- =================== 게시판 검색 =================== 	-->
+ <select id="searchCont" parameterClass="java.util.Map" resultMap="BoardResult">
+ <![CDATA[
+ 	select no, id, section, title, name, email1, email2, cont, pwd, secret, comment_total, reply_select_no, reply_level, reply_seq, hit, regdate 
+	from(
+		select no, id, section, title, name, email1, email2, cont, pwd, secret, comment_total, reply_select_no, reply_level, reply_seq, hit, regdate, rownum as rnum 
+		from (
+			select *
+			from board_list	
+			where title like '%'||#search#||'%' 
+			order by reply_select_no desc, reply_seq
+			)
+		)	
+		where rnum between #startRow# and #endRow#
+	]]>		
+ 	</select>
+  <!-- =================== 게시판 전체 내용 수 =================== -->	
+ 	<select id="getSearchCnt" parameterClass="String" resultClass="java.lang.Integer">
+ 		select count(*) as sum from board_list where title like '%'||#search#||'%'
+ 	</select>
+ 	
+ <!-- =================== 게시판 답글에 제목 불러오는 메소드 =================== -->
+	<select id="boardGetcont" parameterClass="Integer" resultMap="BoardResult">
+		select * from board_list where no=#board_no#
+	</select> 	
+ <!-- ===================  답변글 저장전 댓글 seq 없데이트  =================== -->
+	<update id="boardReplyUpdate" parameterClass="Board">
+		update board_list set reply_seq = reply_seq + 1 where reply_select_no = #reply_select_no# and reply_seq > #reply_seq#
+	</update>
+ <!-- =================== 게시판 답글 저장 =================== -->
+ 	<insert id="boardReply" parameterClass="Board">
+ 		insert into board_list(no, id, section, title, name, email1, email2, cont, pwd, secret, comment_total, reply_select_no, reply_level, reply_seq, hit, regdate)
+ 			values(seq_board.nextval, #board_id#, #board_section#, #board_title#, #board_name#, #board_email1#, #board_email2#, #board_cont#
+ 			, #board_pwd#, #board_secret#, #comment_total#, #reply_select_no#, #reply_level#, #reply_seq#, #hit#, sysdate)
+ 	</insert>
+ 	
+
+
+
+ </sqlMap>

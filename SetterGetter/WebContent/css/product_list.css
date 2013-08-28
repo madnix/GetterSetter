@@ -1,0 +1,29 @@
+/* product_lit.css */
+
+#category{ margin-bottom: 200px; }
+#product{ width: 1030px; height:830px;margin: 0 auto; border-top: 8px solid #e5e5e3;}
+#product ul{ float: left; padding-bottom: 50px;}
+#product ul li{ float: left; margin-left: 20px; margin-top: 20px;}
+#product p{ text-align: center;}
+
+
+/* maincontents */
+#category{margin-bottom: 200px;}
+#product{width:1020px; margin:0 auto; border-top:8px solid #e5e5e3;}
+#product ul{float:left; padding-bottom:50px;}
+#product ul li{float:left; margin-left:20px; margin-top:20px;}
+#product p{text-align: center;}
+
+
+/* 가격폰트 */
+.a{ padding-top: 5px; }
+.b{ padding-top: 5px; color: black; }
+.c{ padding-top: 5px; color: black; text-decoration: line-through;}
+.d{ color: red; text-decoration: none;}
+
+/* pageList */
+
+.pageList{ width: 1000px; float:left; text-align: center; margin: 25px 0;}
+.pageList a{ color: #7c7c7c; text-decoration: none; }
+.pageList .on{ color: #4bbed1; font-weight: bold;}
+

@@ -1,0 +1,36 @@
+@charset "utf-8";
+
+/* product_board.css */
+
+/* 일반 line */
+#comment_line{width:700px; height:1px; background-color:#878787; margin-left:80px;}
+#comment_space{width:700px; height:20px; margin-left:80px;}
+#star_line{width:140px; height:1px;background-color:#f0f0f0; }
+
+/* 상품평 툴 */
+#comment_wrap{width:1000px; height:auto; margin: auto; }
+
+/* 상품명 쓰기 */
+#comment_write_wrap{width:700px; height:157px; margin-left:80px;  background-color:#f0f0f0; border:1px solid #878787;}
+/* 평점관리 */
+#comment_table{width:150px; height:137px; background-color:#ffffff; align:left; margin:10px 0 0 10px;float:left; }
+#top_box{width:140px; height:18px; background-color:#f0f0f0; margin:4px 0 0 5px; padding-top:8px; text-align:center;}
+#bottom_box{width:140px; height:20px; background-color:blu; margin:0 0 5px 5px; text-align:center;}
+#comment_write_wrap .checkbox{ margin-top:-8px;}
+
+#comment_write{width:410px; height:10px; background-color:#fffff2; align:center; margin:10px 0 0 10px; float:left; }
+
+#appraisal_id{width:410px; height:20px; margin:100px 0 0 10px; text-align:left; float:left; }
+
+#comment_ok{width:100px; height:40px; align:right; margin:90px 5px 0 0; float:right; }
+
+/* 상품명 title */
+#comment_title{background-color:#f0f0f0;margin-left:80px;}
+
+/* 상품명 title */
+#comment_cont{margin-left:80px;}
+
+/* comment_paging*/
+#comment_paging{ width:700px; height:200px; margin-top:30px; align:center; font-size:10px; text-align:center; margin-left:80px; :1px solid blue;}
+
+

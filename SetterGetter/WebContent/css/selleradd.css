@@ -1,0 +1,21 @@
+@charset "utf-8";
+/* import */
+@import url(base.css); /* reset, font, link, skip */
+@import url(layout.css); /* layout */
+
+/* detail list */
+#detail{width:1000px; margin:0 auto; padding:30px 0; border-top:8px solid #e5e5e3;}
+#imgView{width: 230px; height: 250px; text-align:center; border:1px solid silver; margin-bottom:10px;}
+.list_img{background:url(../images/common/bg_head.gif) repeat-x; padding:10px 0;}
+#preView{width: 526px; height: 324px; text-align:center; border:1px solid silver;float:left;}
+#product_add{float: left; padding-bottom:50px;}
+#product_add p{padding-bottom: 20px;}
+#product_add th{width:100px;text-align:left;}
+#product_add td{padding:15px 0;}
+#info {margin-bottom:50px;}
+.board{width:1000px;}
+.board tr{height:30px;border-top:1px solid #bcbcbc;}
+.botton{border-bottom:1px solid #bcbcbc;}
+#detailView{width: 866px; height: 3132px; text-align: center; border:1px solid silver;}
+#info_btn{ margin-top: 20px; position:relative; left:560px;}
+#info_btn p{float:left; padding-left:5px;}

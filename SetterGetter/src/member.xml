@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="Member">
+
+  <typeAlias alias="Member" type="model.MemberBean"/>
+
+  <resultMap id="MemberResult" class="Member">
+    <result property="id" column="id" columnIndex="1"/>
+    <result property="section" column="section" columnIndex="2"/>
+    <result property="pwd" column="pwd" columnIndex="3"/>
+    <result property="pwd_q" column="pwd_q" columnIndex="4"/>
+    <result property="pwd_a" column="pwd_a" columnIndex="5"/>
+    <result property="name" column="name" columnIndex="6"/>
+    <result property="zip1" column="zip1" columnIndex="7"/>
+    <result property="zip2" column="zip2" columnIndex="8"/>
+	<result property="addr1" column="addr1" columnIndex="9"/>
+    <result property="addr2" column="addr2" columnIndex="10"/>
+    <result property="tel1" column="tel1" columnIndex="11"/>
+    <result property="tel2" column="tel2" columnIndex="12"/>
+	<result property="tel3" column="tel3" columnIndex="13"/>
+    <result property="phone1" column="phone1" columnIndex="14"/>
+    <result property="phone2" column="phone2" columnIndex="15"/>
+    <result property="phone3" column="phone3" columnIndex="16"/>
+	<result property="email1" column="email1" columnIndex="17"/>
+    <result property="email2" column="email2" columnIndex="18"/>
+    <result property="birth1" column="birth1" columnIndex="19"/>
+    <result property="birth2" column="birth2" columnIndex="20"/>
+	<result property="birth3" column="birth3" columnIndex="21"/>
+    <result property="wedding1" column="wedding1" columnIndex="22"/>
+    <result property="wedding2" column="wedding2" columnIndex="23"/>
+    <result property="wedding3" column="wedding3" columnIndex="24"/>
+    <result property="wifebirth1" column="wifebirth1" columnIndex="25"/>
+    <result property="wifebirth2" column="wifebirth2" columnIndex="26"/>
+    <result property="wifebirth3" column="wifebirth3" columnIndex="27"/>
+	<result property="location" column="location" columnIndex="28"/>
+    <result property="cor" column="cor" columnIndex="29"/>
+    <result property="cor_name" column="cor_name" columnIndex="30"/>
+    <result property="cor_number" column="cor_number" columnIndex="31"/>
+    <result property="cor_zip1" column="cor_zip1" columnIndex="32"/>
+    <result property="cor_zip2" column="cor_zip2" columnIndex="33"/>
+    <result property="cor_addr1" column="cor_addr1" columnIndex="34"/>
+    <result property="cor_addr2" column="cor_addr2" columnIndex="35"/>
+    <result property="cor_tel1" column="cor_tel1" columnIndex="36"/>
+    <result property="cor_tel2" column="cor_tel2" columnIndex="37"/>
+    <result property="cor_tel3" column="cor_tel3" columnIndex="38"/>
+    <result property="cor_fax1" column="cor_fax1" columnIndex="39"/>
+    <result property="cor_fax2" column="cor_fax2" columnIndex="40"/>
+    <result property="cor_fax3" column="cor_fax3" columnIndex="41"/>
+    <result property="cor_mail1" column="cor_mail1" columnIndex="42"/>
+    <result property="cor_mail2" column="cor_mail2" columnIndex="43"/>
+  </resultMap>
+
+<!-- =================== 아이디체크 =================== -->
+	<select id="idcheckMember" resultClass="String" parameterClass="String">
+		select id
+		from member
+		where id=#idcheck#
+	</select>
+	
+<!-- =================== 구매자 회원가입 =================== -->	
+	<insert id="insertMember" parameterClass="Member">
+		insert into member(
+			 id,section,pwd,pwd_q,pwd_a,name,zip1,zip2,addr1,addr2,tel1,tel2 
+		     ,tel3 ,phone1 ,phone2,phone3,email1,email2,birth1,birth2,birth3,wedding1
+			 ,wedding2,wedding3,wifebirth1,wifebirth2,wifebirth3,location) 
+		 values(#id#,#section# 
+			 ,#pwd#,#pwd_q#,#pwd_a#,#name#,#zip1#,#zip2#,#addr1#,#addr2#,#tel1#,#tel2# 
+		     ,#tel3#,#phone1# ,#phone2#,#phone3#,#email1#,#email2#,#birth1#,#birth2#,#birth3#
+		     ,#wedding1#,#wedding2#,#wedding3#,#wifebirth1#,#wifebirth2#,#wifebirth3#,#location#)
+	</insert>
+	
+<!-- =================== 판매자 회원가입 =================== -->
+	<insert id="insertMember2" parameterClass="Member">
+		insert into member(
+			 id,section,pwd,pwd_q,pwd_a,name,zip1,zip2,addr1,addr2,tel1,tel2 
+		     ,tel3 ,phone1 ,phone2,phone3,email1,email2,birth1,birth2,birth3,wedding1
+			 ,wedding2,wedding3,wifebirth1,wifebirth2,wifebirth3,location
+			 ,cor,cor_name,cor_number,cor_zip1,cor_zip2,cor_addr1,cor_addr2,cor_tel1,cor_tel2,cor_tel3
+			 ,cor_fax1,cor_fax2,cor_fax3,cor_mail1,cor_mail2) 
+		values(#id#,#section# 
+			 ,#pwd#,#pwd_q#,#pwd_a#,#name#,#zip1#,#zip2#,#addr1#,#addr2#,#tel1#,#tel2# 
+		     ,#tel3#,#phone1# ,#phone2#,#phone3#,#email1#,#email2#,#birth1#,#birth2#,#birth3#
+		     ,#wedding1#,#wedding2#,#wedding3#,#wifebirth1#,#wifebirth2#,#wifebirth3#,#location#
+		     ,#cor#,#cor_name#,#cor_number#,#cor_zip1#,#cor_zip2#,#cor_addr1#,#cor_addr2#
+		     ,#cor_tel1#,#cor_tel2#,#cor_tel3#,#cor_fax1#,#cor_fax2#,#cor_fax3#,#cor_mail1#,#cor_mail2#)
+	</insert>
+	<!-- =================== 로그인 아이디 =================== -->
+	<select id="idcheck" resultClass="Member" parameterClass="String">
+		select * from member where id = #value#
+	</select>
+
+	
+	<!-- ================== 저장 아이디 반납 ================== -->
+	<select id="getUserList" parameterClass="String" resultMap="MemberResult">
+		select * from member where id = #id#
+	</select>
+
+	
+	<!-- =================== 아이디 찾기  =================== -->
+	<select id="namecheck" resultClass="Member" parameterClass="java.util.HashMap">
+		select * from member where email1 = #email1# and email2 = #email2#
+	</select>
+	
+	<!--  =================== id 기준으로 회원정보 가져오기 ===================  -->	
+	<select id="getMemberInfo" resultMap="MemberResult" parameterClass="String">
+		select *
+		from member
+		where id=#id#
+	</select>
+	
+	<!-- =================== 구매자 회원정보 수정 =================== -->
+	<update id="editBuyerMember" parameterClass="Member">
+		update member
+		set pwd=#pwd#,pwd_q=#pwd_q#,pwd_a=#pwd_a#,name=#name#,zip1=#zip1#,zip2=#zip2#,addr1=#addr1#,addr2=#addr2#,tel1=#tel1#,tel2=#tel2#
+		     ,tel3=#tel3#,phone1=#phone1#,phone2=#phone2#,phone3=#phone3#,email1=#email1#,email2=#email2#,birth1=#birth1#,birth2=#birth2#,birth3=#birth3#,wedding1=#wedding1#
+			 ,wedding2=#wedding2#,wedding3=#wedding3#,wifebirth1=#wifebirth1#,wifebirth2=#wifebirth2#,wifebirth3=#wifebirth3#,location=#location#
+		where id=#id#
+	</update>
+		
+		
+<!-- =================== 판매자 회원 정보 수정 =================== -->
+	<update id="editSellerMember" parameterClass="Member">
+		update member
+		set pwd=#pwd#,pwd_q=#pwd_q#,pwd_a=#pwd_a#,name=#name#,zip1=#zip1#,zip2=#zip2#,addr1=#addr1#,addr2=#addr2#,tel1=#tel1#,tel2=#tel2#
+		     ,tel3=#tel3#,phone1=#phone1#,phone2=#phone2#,phone3=#phone3#,email1=#email1#,email2=#email2#,birth1=#birth1#,birth2=#birth2#,birth3=#birth3#,wedding1=#wedding1#
+			 ,wedding2=#wedding2#,wedding3=#wedding3#,wifebirth1=#wifebirth1#,wifebirth2=#wifebirth2#,wifebirth3=#wifebirth3#,location=#location#
+			 ,cor=#cor#,cor_name=#cor_name#,cor_number=#cor_number#,cor_zip1=#cor_zip1#,cor_zip2=#cor_zip2#,cor_addr1=#cor_addr1#,cor_addr2=#cor_addr2#,cor_tel1=#cor_tel1#,cor_tel2=#cor_tel2#,cor_tel3=#cor_tel3#
+			 ,cor_fax1=#cor_fax1#,cor_fax2=#cor_fax2#,cor_fax3=#cor_fax3#,cor_mail1=#cor_mail1#,cor_mail2=#cor_mail2#
+		where id=#id#
+	</update>	
+	
+<!-- =================== 게시판 작성 개인정보 =================== -->	
+	<select id="boardInfo2" parameterClass="String" resultMap="MemberResult">
+		select * from member where id=#id#
+	</select>
+
+<!-- =================== 게시판 답변글 개인정보 =================== -->	
+	<select id="boardReplyInfo" parameterClass="String" resultMap="MemberResult">
+		select * from member where id=#id#
+	</select>
+
+<!-- =================== 상세보기 댓글 개인정보 =================== -->
+	<select id="getName" parameterClass="String" resultMap="MemberResult">
+		select * from member where id=#id#
+	</select>
+
+
+
+	<!-- 관리자 모든 판매자 반납 -->
+	<select id="resultpusercount" resultClass="java.lang.Integer">
+		select count(*) from
+		member where section = 1
+	</select>
+
+	<!-- 판매자 페이징 -->
+	<select id="selectpagepuserlist" resultClass="Member"
+		parameterClass="java.util.Map">
+		<![CDATA[
+		select *
+		from(
+			select rownum as rnum, A.*
+			from (
+				select *
+				from member
+				where section = 1
+				) A
+			)	
+		where rnum between #startRow# and #endRow#		
+		]]>
+	</select>
+
+	<!-- 모든 구매자 반납 -->
+	<select id="resultcusercount" resultClass="java.lang.Integer">
+		select count(*) from
+		member where section = 0
+	</select>
+
+	<!-- 구매자 페이징 -->
+	<select id="selectpagecuserlist" resultClass="Member"
+		parameterClass="java.util.Map">
+		<![CDATA[
+		select *
+		from(
+			select rownum as rnum, A.*
+			from (
+				select *
+				from member
+				where section = 0
+				) A
+			)	
+		where rnum between #startRow# and #endRow#		
+		]]>
+	</select>
+
+	<!-- 관리자 유저 정보 -->
+	<select id="getAllUserList" parameterClass="String" resultClass="Member">
+		select * from member where id=#puserid#
+	</select>
+
+	<!-- 관리자 회원 탈퉤 -->
+	<update id="adminupdatemember" parameterClass="String">
+		update member set
+		section=4 where id=#user_id#
+	</update>
+	
+	
+</sqlMap>
+
+
+
+
+
+
+
+
+
+
+
+

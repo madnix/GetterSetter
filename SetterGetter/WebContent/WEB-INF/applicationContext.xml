@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+	<!-- Data Source -->
+	<bean id="dataSource"
+		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<!-- JDBC 드라이버 클래스명의 설정-->
+		<property name="driverClassName">
+			<value>oracle.jdbc.OracleDriver</value>
+		</property>
+		<!-- JDBC 접속 문자열 설정 -->
+		<property name="url">
+			<value>jdbc:oracle:thin:@localhost:1521:xe
+			</value>
+		</property>
+		<!-- Oracle 유저ID 설정-->
+		<property name="username">
+			<value>sys</value>
+		</property>
+		<!-- Oracle 패스워드 설정-->
+		<property name="password">
+			<value>1234</value>
+		</property>
+	</bean>
+
+
+	<bean id="memberService" class="dao.MemberDao" />		<!-- 회원가입 서비스 -->
+	<bean id="productService" class="dao.ProductDao" />		<!-- 물품등록 서비스 -->
+	<bean id="boardService" class="dao.BoardDao" />		<!-- 게시판 서비스 -->
+	<bean id="cartService" class="dao.CartDao" />		 <!-- 장바구니 서비스 -->
+	<bean id="adminService" class="dao.AdminDao" />      <!-- 관리자 서비스 -->
+	<bean id="commentService" class="dao.CommentDao" />		<!-- 댓글 서비스 -->
+	
+	<bean id="mailSender"
+        class="org.springframework.mail.javamail.JavaMailSenderImpl"
+        p:host="smtp.gmail.com"
+        p:port="465" 
+        p:protocol="smtps"
+        p:username="settergetter1234@gmail.com"
+        p:password="settergetter">
+        <property name="javaMailProperties">
+            <props>
+                <prop key="mail.smtps.auth">true</prop>
+                <prop key="mail.smtps.startls.enable">true</prop>
+                <prop key="mail.smtps.debug">true</prop>
+            </props>
+        </property>
+    </bean>
+    <bean id="templateMessage" 
+        class="org.springframework.mail.SimpleMailMessage"
+        p:from="sleeping586@navre.com" 
+        p:to="sleeping586@naver.com"
+        p:subject="안녕!" />
+  
+
+</beans>
